@@ -1,2 +1,0 @@
-# onesta
-Onesta API
