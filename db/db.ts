@@ -14,22 +14,20 @@ export async function initializeDB() {
 }
 
 export async function addFruit(variety?: Text, harvests?: Text, farmers?: Text, fields?: Text, clients?: Text) {
-   
+
     if (variety === undefined) {
         let error = new Error(`processing error in request`)
         throw error;
     } else {
-        const db = await open({
-            filename: DB_PATH,
-            driver: sqlite3.Database,
-        });
+        const db = new sqlite3.Database(DB_PATH);
         db.run(
             'INSERT INTO fruits (variety, harvests, farmers, fields, clients) VALUES (?, ?, ?, ?, ?)',
             [variety, harvests, farmers, fields, clients],
-            () => {
-                console.log('fruit added!')
+            function (err: any) {
+                throw err;
             }
         );
+        db.close()
     }
 }
 
