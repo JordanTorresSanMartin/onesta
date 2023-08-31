@@ -9,15 +9,13 @@ const upload = multer({ storage });
 export function setupRoutes(app: express.Application) {
   app.post('/api/fruits', async (req, res) => {
     try {
-      const { name } = req.body;
-      await addFruit(name);
-      res.status(201).json({ message: 'Fruit added successfully' });
+      const {variety, harvests, farmers, fields, clients} = req.body;
+      const fruitAdded = await addFruit(variety, harvests, farmers, fields, clients);
+      res.status(200).json({ message: fruitAdded });
     } catch (error:any) {
       res.status(500).json({ error: error.message });
     }
   });
-
-  // Define otras rutas aquí
 
   app.post('/api/upload-csv', upload.single('csv'), async (req, res) => {
     const fileBuffer = req;
